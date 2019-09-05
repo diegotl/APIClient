@@ -17,7 +17,6 @@ extension IAPIClient {
     var session: URLSession {
         let sessionConfig = URLSessionConfiguration.default
         sessionConfig.timeoutIntervalForRequest = 15.0
-        sessionConfig.timeoutIntervalForResource = 15.0
         return URLSession(configuration: sessionConfig)
     }
     

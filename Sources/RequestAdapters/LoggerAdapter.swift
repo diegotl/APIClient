@@ -6,6 +6,7 @@
 //  Copyright © 2018 Diego Trevisan Lara. All rights reserved.
 //
 
+import Foundation
 import OkLog
 
 struct LoggerAdapter: RequestAdapter {

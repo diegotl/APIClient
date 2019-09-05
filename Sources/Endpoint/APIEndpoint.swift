@@ -32,7 +32,7 @@ class APIEndpoint {
     let method: HTTPMethod
     let encoding: ParameterEncoding
     
-    init(url: APIEndpointUrl, method: HTTPMethod = .get, encoding: ParameterEncoding = .urlEncoded(nil)) {
+    init(url: APIEndpointUrl, method: HTTPMethod = .get, encoding: ParameterEncoding = .formUrlEncoded(nil)) {
         self.url = url
         self.method = method
         self.encoding = encoding
