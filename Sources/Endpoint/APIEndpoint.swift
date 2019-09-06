@@ -10,28 +10,28 @@ import Foundation
 
 // MARK: - Environment
 
-protocol APIEnvionment {
+public protocol APIEnvionment {
     var baseUrl: String { get }
 }
 
 // MARK: - Endpoint Path
 
-protocol APIEndpointPath {
+public protocol APIEndpointPath {
     var value: String { get }
 }
 
 // MARK: - Endpoint
 
-class APIEndpoint {
+public class APIEndpoint {
     let environment: APIEnvionment
     let path: APIEndpointPath
     
-    init(environment: APIEnvionment, path: APIEndpointPath) {
+    public init(environment: APIEnvionment, path: APIEndpointPath) {
         self.environment = environment
         self.path = path
     }
     
-    var url: String {
+    public var url: String {
         return "\(environment.baseUrl)\(path.value)"
     }
 }

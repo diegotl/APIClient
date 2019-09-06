@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum HTTPMethod: String {
+public enum HTTPMethod: String {
     case options = "OPTIONS"
     case get     = "GET"
     case head    = "HEAD"
@@ -20,7 +20,7 @@ enum HTTPMethod: String {
     case connect = "CONNECT"
 }
 
-enum ParameterEncoding {
+public enum ParameterEncoding {
     case formUrlEncoded(Codable?)
     case queryString(Codable?)
     case json(Codable?)
@@ -31,7 +31,7 @@ public class APIRequest {
     let method: HTTPMethod
     let encoding: ParameterEncoding
     
-    init(endpoint: APIEndpoint, method: HTTPMethod = .get, encoding: ParameterEncoding = .formUrlEncoded(nil)) {
+    public init(endpoint: APIEndpoint, method: HTTPMethod = .get, encoding: ParameterEncoding = .formUrlEncoded(nil)) {
         self.endpoint = endpoint
         self.method = method
         self.encoding = encoding
