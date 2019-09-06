@@ -9,7 +9,7 @@
 import Foundation
 
 protocol IAPIClient {
-    func execute<T: Decodable>(endpoint: APIEndpoint, completion: @escaping (Result<T, APIError>) -> Void)
+    func execute<T: Decodable>(apiRequest: APIRequest, completion: @escaping (Result<T, APIError>) -> Void)
 }
 
 extension IAPIClient {

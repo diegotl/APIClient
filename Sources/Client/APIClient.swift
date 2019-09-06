@@ -8,19 +8,24 @@
 
 import Foundation
 
-struct APIClient: IAPIClient {
-    
+struct APIConfiguration {
+    let timeout: TimeInterval
+    let productionBaseUrl: String
+    let sandboxBaseUrl: String
+}
+
+class APIClient: IAPIClient {
     let strategy: APIStrategy
     let adapters: [RequestAdapter]
     
-    public init(strategy: APIStrategy, adapters: [RequestAdapter]) {
+    public init(strategy: APIStrategy = APIDefaultStrategy(), adapters: [RequestAdapter] = []) {
         self.strategy = strategy
         self.adapters = adapters
     }
     
-    func execute<T: Decodable>(endpoint: APIEndpoint, completion: @escaping (Result<T, APIError>) -> Void) {
+    func execute<T: Decodable>(apiRequest: APIRequest, completion: @escaping (Result<T, APIError>) -> Void) {
         
-        var request = endpoint.build()
+        var request = apiRequest.build()
         adapters.forEach({ request = $0.adapt(request) })
         
         session.dataTask(with: request) { data, response, error in
