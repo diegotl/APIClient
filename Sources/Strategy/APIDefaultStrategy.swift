@@ -8,9 +8,11 @@
 
 import Foundation
 
-struct APIDefaultStrategy: APIStrategy {
+public struct APIDefaultStrategy: APIStrategy {
     
-    func execute<T: Decodable>(data: Data?, response: URLResponse?, error: Error?, completion: @escaping (Result<T, APIError>) -> Void) {
+    public init() {}
+    
+    public func execute<T: Decodable>(data: Data?, response: URLResponse?, error: Error?, completion: @escaping (Result<T, APIError>) -> Void) {
         
         if let error = error {
             DispatchQueue.main.async { completion(.failure(.underlying(error))) }

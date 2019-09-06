@@ -26,19 +26,19 @@ enum ParameterEncoding {
     case json(Codable?)
 }
 
-class APIRequest {
-    let url: APIEndpoint
+public class APIRequest {
+    let endpoint: APIEndpoint
     let method: HTTPMethod
     let encoding: ParameterEncoding
     
-    init(url: APIEndpoint, method: HTTPMethod = .get, encoding: ParameterEncoding = .formUrlEncoded(nil)) {
-        self.url = url
+    init(endpoint: APIEndpoint, method: HTTPMethod = .get, encoding: ParameterEncoding = .formUrlEncoded(nil)) {
+        self.endpoint = endpoint
         self.method = method
         self.encoding = encoding
     }
     
     func build() -> URLRequest {
-        let url = URL(string: self.url.url)!
+        let url = URL(string: endpoint.url)!
         var request = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 15)
         request.httpMethod = method.rawValue
         
@@ -53,8 +53,9 @@ class APIRequest {
             request.httpBody = try? parameter?.data()
             
         case .queryString(let parameter):
+            request.allHTTPHeaderFields = ["Content-Type": "application/x-www-form-urlencoded"]
             if let queryString = try? parameter?.json().queryString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) {
-                request.url = URL(string: "\(self.url.url)?\(queryString)")!
+                request.url = URL(string: "\(endpoint.url)?\(queryString)")!
             }
         }
         

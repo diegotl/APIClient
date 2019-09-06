@@ -8,6 +8,6 @@
 
 import Foundation
 
-enum APIError: LocalizedError {
+public enum APIError: LocalizedError {
     case underlying(Error)
 }

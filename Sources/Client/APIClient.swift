@@ -8,13 +8,13 @@
 
 import Foundation
 
-struct APIConfiguration {
-    let timeout: TimeInterval
-    let productionBaseUrl: String
-    let sandboxBaseUrl: String
-}
+//struct APIConfiguration {
+//    let timeout: TimeInterval
+//    let productionBaseUrl: String
+//    let sandboxBaseUrl: String
+//}
 
-class APIClient: IAPIClient {
+public class APIClient: IAPIClient {
     let strategy: APIStrategy
     let adapters: [RequestAdapter]
     
@@ -23,7 +23,7 @@ class APIClient: IAPIClient {
         self.adapters = adapters
     }
     
-    func execute<T: Decodable>(apiRequest: APIRequest, completion: @escaping (Result<T, APIError>) -> Void) {
+    public func execute<T: Decodable>(apiRequest: APIRequest, completion: @escaping (Result<T, APIError>) -> Void) {
         
         var request = apiRequest.build()
         adapters.forEach({ request = $0.adapt(request) })

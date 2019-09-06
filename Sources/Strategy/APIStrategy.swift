@@ -8,6 +8,6 @@
 
 import Foundation
 
-protocol APIStrategy {
+public protocol APIStrategy {
     func execute<T: Decodable>(data: Data?, response: URLResponse?, error: Error?, completion: @escaping (Result<T, APIError>) -> Void)
 }
