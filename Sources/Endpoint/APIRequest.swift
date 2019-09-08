@@ -26,7 +26,7 @@ public enum ParameterEncoding {
     case json(Codable?)
 }
 
-public class APIRequest {
+open class APIRequest {
     let endpoint: APIEndpoint
     let method: HTTPMethod
     let encoding: ParameterEncoding
