@@ -22,7 +22,7 @@ public protocol APIEndpointPath {
 
 // MARK: - Endpoint
 
-public class APIEndpoint {
+open class APIEndpoint {
     let environment: APIEnvionment
     let path: APIEndpointPath
     
