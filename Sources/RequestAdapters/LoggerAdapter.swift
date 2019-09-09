@@ -9,14 +9,14 @@
 import Foundation
 import OkLog
 
-struct LoggerAdapter: RequestAdapter {
+public struct LoggerAdapter: RequestAdapter {
     
-    func adapt(_ request: URLRequest) -> URLRequest {
+    public func adapt(_ request: URLRequest) -> URLRequest {
         OkLog.willSend(request)
         return request
     }
     
-    func complete(request: URLRequest, response: URLResponse?, data: Data?) {
+    public func complete(request: URLRequest, response: URLResponse?, data: Data?) {
         let fullUrl = OkLog.getUrl(request: request, response: response, data: data)
         print(fullUrl)
     }

@@ -8,12 +8,6 @@
 
 import Foundation
 
-//struct APIConfiguration {
-//    let timeout: TimeInterval
-//    let productionBaseUrl: String
-//    let sandboxBaseUrl: String
-//}
-
 public class APIClient: IAPIClient {
     let strategy: APIStrategy
     let adapters: [RequestAdapter]
