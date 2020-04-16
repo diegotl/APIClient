@@ -7,12 +7,14 @@
 //
 
 import Foundation
+import APIClient
 import OkLog
 
 public struct LoggerAdapter: RequestAdapter {
     
+    public init() {}
+    
     public func adapt(_ request: URLRequest) -> URLRequest {
-        OkLog.willSend(request)
         return request
     }
     
