@@ -6,14 +6,14 @@ let package = Package(
     name: "APIClient",
     products: [
         .library(name: "APIClient", targets: ["APIClient"]),
-        .library(name: "APIClientOkLog", targets: ["APIClient", "APIClientOkLog"]),
+        .library(name: "APIClient+OkLog", targets: ["APIClient+OkLog"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/diegotl/OkLog-Swift.git", from: "0.2.1"),
+        .package(url: "https://github.com/diegotl/OkLog-Swift.git", from: "0.2.4"),
     ],
     targets: [
         .target(name: "APIClient", path: "Sources/Core"),
-        .target(name: "APIClientOkLog", dependencies: ["OkLog"], path: "Sources/OkLog"),
+        .target(name: "APIClient+OkLog", dependencies: ["OkLog"], path: "Sources/OkLog"),
         .testTarget(name: "APIClientTests", dependencies: ["APIClient"]),
     ]
 )
