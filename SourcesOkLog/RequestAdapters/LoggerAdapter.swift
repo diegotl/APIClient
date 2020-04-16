@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import APIClient
 import OkLog
 
 public struct LoggerAdapter: RequestAdapter {
