@@ -12,8 +12,8 @@ let package = Package(
         .package(url: "https://github.com/diegotl/OkLog-Swift.git", from: "0.2.1"),
     ],
     targets: [
-        .target(name: "APIClient", path: "Sources/"),
-        .target(name: "APIClientOkLog", dependencies: ["OkLog"], path: "SourcesOkLog/"),
+        .target(name: "APIClient", path: "Sources/Core"),
+        .target(name: "APIClientOkLog", dependencies: ["OkLog"], path: "Sources/OkLog"),
         .testTarget(name: "APIClientTests", dependencies: ["APIClient"]),
     ]
 )
