@@ -8,57 +8,81 @@
 
 import Foundation
 
-public enum HTTPMethod: String {
-    case options = "OPTIONS"
-    case get     = "GET"
-    case head    = "HEAD"
-    case post    = "POST"
-    case put     = "PUT"
-    case patch   = "PATCH"
-    case delete  = "DELETE"
-    case trace   = "TRACE"
-    case connect = "CONNECT"
+public enum HTTPMethod {
+    case options
+    case get(_ queryString: Codable? = nil)
+    case head
+    case post(_ paramater: Codable? = nil)
+    case put(_ paramater: Codable? = nil)
+    case patch(_ paramater: Codable? = nil)
+    case delete
+    case trace
+    case connect
+
+    var value: String {
+        switch self {
+        case .options:   return "OPTIONS"
+        case .get:       return "GET"
+        case .head:      return "HEAD"
+        case .post:      return "POST"
+        case .put:       return "PUT"
+        case .patch:     return "PATCH"
+        case .delete:    return "DELETE"
+        case .trace:     return "TRACE"
+        case .connect:   return "CONNECT"
+        }
+    }
 }
 
 public enum ParameterEncoding {
-    case formUrlEncoded(Codable?)
-    case queryString(Codable?)
-    case json(Codable?)
+    case formUrlEncoded
+    case queryString
+    case json
 }
 
 open class APIRequest {
     let endpoint: APIEndpoint
     let method: HTTPMethod
     let encoding: ParameterEncoding
-    
-    public init(endpoint: APIEndpoint, method: HTTPMethod = .get, encoding: ParameterEncoding = .formUrlEncoded(nil)) {
+
+    public init(endpoint: APIEndpoint, method: HTTPMethod = .get(nil), encoding: ParameterEncoding = .json) {
         self.endpoint = endpoint
         self.method = method
         self.encoding = encoding
     }
-    
-    func build() -> URLRequest {
+
+    func build(cachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy, timeoutInterval: TimeInterval = 15) -> URLRequest {
         let url = URL(string: endpoint.url)!
-        var request = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 15)
-        request.httpMethod = method.rawValue
-        
+        var request = URLRequest(url: url, cachePolicy: cachePolicy, timeoutInterval: timeoutInterval)
+        request.httpMethod = method.value
+
         switch encoding {
-            
-        case .formUrlEncoded(let parameter):
+        case .formUrlEncoded:
             request.allHTTPHeaderFields = ["Content-Type": "application/x-www-form-urlencoded"]
-            request.httpBody = try? parameter?.json().queryString.data(using: .utf8)
-            
-        case .json(let parameter):
+        case .json:
             request.allHTTPHeaderFields = ["Content-Type": "application/json"]
-            request.httpBody = try? parameter?.data()
-            
-        case .queryString(let parameter):
+        case .queryString:
             request.allHTTPHeaderFields = ["Content-Type": "application/x-www-form-urlencoded"]
-            if let queryString = try? parameter?.json().queryString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) {
-                request.url = URL(string: "\(endpoint.url)?\(queryString)")!
-            }
         }
-        
+
+        switch method {
+        case .get(let queryString):
+            guard let query = try? queryString?.json().queryString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else { break }
+            request.url = URL(string: "\(endpoint.url)?\(query)")!
+
+        case .post(let parameter),
+             .put(let parameter),
+             .patch(let parameter):
+            if encoding == .json {
+                request.httpBody = try? parameter?.data()
+            } else {
+                request.httpBody = try? parameter?.json().queryString.data(using: .utf8)
+            }
+
+        default:
+            break
+        }
+
         return request
     }
 }

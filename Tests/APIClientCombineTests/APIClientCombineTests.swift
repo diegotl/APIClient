@@ -33,7 +33,7 @@ final class APIClientCombineTests: XCTestCase {
     func testGet() {
         
         let endpoint = APIEndpoint(environment: TestEnvironment.httpbin, path: Path.json)
-        let apiRequest = APIRequest(endpoint: endpoint, method: .get)
+        let apiRequest = APIRequest(endpoint: endpoint)
         let successExpectation = expectation(description: "Success")
         
         cancellable = APIClient().execute(apiRequest: apiRequest)
