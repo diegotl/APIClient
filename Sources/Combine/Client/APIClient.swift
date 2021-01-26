@@ -16,7 +16,7 @@ public class APIClient: APIClientProtocol {
         self.adapters = adapters
     }
 
-    func execute<T: Decodable>(apiRequest: APIRequest) -> AnyPublisher<T, Error> {
+    public func execute<T: Decodable>(apiRequest: APIRequest) -> AnyPublisher<T, Error> {
         var request = apiRequest.build()
         adapters.forEach({ request = $0.adapt(request) })
 
