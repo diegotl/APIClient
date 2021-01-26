@@ -10,11 +10,11 @@ import Foundation
 
 public enum HTTPMethod {
     case options
-    case get(_ queryString: Codable? = nil)
+    case get(_ queryString: Encodable? = nil)
     case head
-    case post(_ paramater: Codable? = nil)
-    case put(_ paramater: Codable? = nil)
-    case patch(_ paramater: Codable? = nil)
+    case post(_ paramater: Encodable? = nil)
+    case put(_ paramater: Encodable? = nil)
+    case patch(_ paramater: Encodable? = nil)
     case delete
     case trace
     case connect
