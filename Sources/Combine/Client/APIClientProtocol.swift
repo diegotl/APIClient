@@ -8,16 +8,9 @@
 import Foundation
 import Combine
 
-protocol APIClientProtocol {
+public protocol APIErrorProtocol: Decodable, LocalizedError {}
+
+public protocol APIClientProtocol {
     func execute<T: Decodable>(apiRequest: APIRequest) -> AnyPublisher<T, Error>
-}
-
-extension APIClientProtocol {
-
-    var session: URLSession {
-        let sessionConfig = URLSessionConfiguration.default
-        sessionConfig.timeoutIntervalForRequest = 15.0
-        return URLSession(configuration: sessionConfig)
-    }
-
+    func execute<T: Decodable, E: APIErrorProtocol>(apiRequest: APIRequest, errorType: E.Type) -> AnyPublisher<T, Error>
 }
