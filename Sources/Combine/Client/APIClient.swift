@@ -28,6 +28,7 @@ public class APIClient: APIClientProtocol {
                 return data
             }
             .decode(type: T.self, decoder: JSONDecoder())
+            .receive(on: RunLoop.main)
             .eraseToAnyPublisher()
     }
 
@@ -47,6 +48,7 @@ public class APIClient: APIClientProtocol {
                 
                 throw try JSONDecoder().decode(E.self, from: data)
             }
+            .receive(on: RunLoop.main)
             .eraseToAnyPublisher()
     }
     
